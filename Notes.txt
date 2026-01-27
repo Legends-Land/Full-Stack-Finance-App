@@ -1,0 +1,2 @@
+Run npx prisma studio open my prisma studio
+Alt + arrow up / down to move line of code
