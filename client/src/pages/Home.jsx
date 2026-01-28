@@ -22,21 +22,31 @@ const Home = () => {
   }, []);
 
   // Form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newExpense = {
-      id: Date.now(),
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    // Send data to backend
+    const res = await axios.post("http://localhost:3000/expenses", {
       name,
       amount: parseFloat(amount),
       category,
       date,
-    };
-    setExpenses([...expenses, newExpense]);
+    });
+
+    // Update state with response from backend
+    setExpenses([...expenses, res.data]);
+
+    // Clear form
     setName("");
     setAmount("");
     setCategory("");
     setDate("");
-  };
+  } catch (err) {
+    console.error("Failed to add expense:", err.response?.data || err);
+  }
+};
+
 
   // Delete & Edit
   const handleDelete = (id) => setExpenses(expenses.filter((e) => e.id !== id));
