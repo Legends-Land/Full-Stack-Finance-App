@@ -6,6 +6,7 @@ import { fileURLToPath } from "url"; //Import and destructuring to translate my 
 import path, {dirname} from "path"; // Importing path that can tell me where my file is. Destructuring dirname to get the exact folder name. 
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
+import expenseRoutes from "./routes/expenseRoutes.js";
 
 
 
@@ -37,6 +38,9 @@ app.get('/api/message', (req, res) => {
   res.json({ message: "Hello from the backend on Home.jsx 👋" });
 });
 
+
+//Routes 
+app.use('/expenses', expenseRoutes);
 
 
 //Telling express this is where you can find all my static files. 
