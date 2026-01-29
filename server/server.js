@@ -40,22 +40,14 @@ app.get('/api/message', (req, res) => {
 
 
 //Routes 
-app.use('/expenses', expenseRoutes);
+app.use("/expenses", expenseRoutes);
 
-
-//Telling express this is where you can find all my static files. 
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Basic route
-// GET requested crated for the Home page 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+app.get('/legend', (req , res) => {
+  res.json({message:"This is information from the backend port 300"});
 });
 
-//Dashboard enpoint created serving a html file
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'dashboard.html'));
-});
+
+
 
 
 

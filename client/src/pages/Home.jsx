@@ -14,10 +14,10 @@ const Home = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3000/auth/home", {
+      .get("http://localhost:3000/expenses", {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res) => console.log(res.data))
+      .then((res) => setExpenses(res.data))
       .catch((err) => console.error(err.response?.data));
   }, []);
 
@@ -26,12 +26,16 @@ const Home = () => {
   e.preventDefault();
 
   try {
+    const token = localStorage.getItem("token");
     // Send data to backend
-    const res = await axios.post("http://localhost:3000/expenses", {
+    const res = await axios.post("http://localhost:3000/expenses",{
       name,
       amount: parseFloat(amount),
       category,
       date,
+    },
+    {
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     // Update state with response from backend

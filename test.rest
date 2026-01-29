@@ -1,5 +1,11 @@
-GET http://localhost:3000
+GET http://localhost:5173
 
 
 ### GET /
-GET http://localhost:3000/dashboard
+GET http://localhost:3000/legend
+
+### GET /
+GET http://localhost:3000/api/message
+
+
+
