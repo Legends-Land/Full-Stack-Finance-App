@@ -24,7 +24,7 @@ const verifyToken = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // 3️⃣ Attach userId to request
-    req.userId = decoded.userId;
+    req.userId = decoded.id;
 
     // 4️⃣ Continue to route
     next();
