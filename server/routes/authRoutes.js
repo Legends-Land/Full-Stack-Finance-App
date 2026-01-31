@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import prisma from '../prismaClient.js';
-import { verify } from "crypto";
+import verifyToken from "../middleware/authmiddleWare.js";
 
 
 //This line creates a new express router
@@ -33,6 +33,8 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body
 
+    console.log(req.userId)
+
     const user = await prisma.user.findUnique({
         where: {
             email: email
@@ -54,24 +56,24 @@ router.post('/login', async (req, res) => {
     res.json({ message: "Login successful", token: token });
 });
 
-const verifyToken = async (req, res, next) => {
-    const authHeader = req.headers.authorization
+// const verifyToken = async (req, res, next) => {
+//     const authHeader = req.headers.authorization
 
-  if (!authHeader) {
-    return res.status(403).json({ message: "No token provided" })
-  }
+//   if (!authHeader) {
+//     return res.status(403).json({ message: "No token provided" })
+//   }
 
-  const token = authHeader.split(" ")[1]
+//   const token = authHeader.split(" ")[1]
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    req.userId = decoded.id
-    next()
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid token" })
-  }
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET)
+//     req.userId = decoded.id
+//     next()
+//   } catch (err) {
+//     return res.status(401).json({ message: "Invalid token" })
+//   }
 
-}
+// }
 
 
 router.get('/home', verifyToken ,async (req, res) => {
