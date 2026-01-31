@@ -33,22 +33,26 @@ router.post ('/', verifyToken, async (req, res)=> {
     res.json(expense)
 })
 
-//Delete a expense
-router.delete('/', verifyToken, async (req, res) => {
-  const{name, amount, category, date} = req.body
+//DELETE a expense
+//Grabbing id from URL paremeters
+//verifying token with verifyToken 
+router.delete('/:id', verifyToken, async (req, res) => {
 
-  const expense = await prisma.expense.delete({
-    data: {
-      name,
-      amount,
-      category,
-      date,
+  //Extractimg the id from the URL
+  const expenseId = Number(req.params.id);
+
+  //Going to the DB and finding Expense table
+  //Where, we are searching for the table id.
+  // expenseId is holding id from URL and userId  user id associated with the users acc. 
+  // User can only delete expenses from their account
+  const deletedExpense = await prisma.expense.delete({
+    where: {
+      id: expenseId,
       userId: req.userId
-    }
-    
-  })
-  
-  res.json(expense)
-})
+    },
+  });
+
+  res.json({message: "Expense deleted", deletedExpense});
+});
 
 export default router;
