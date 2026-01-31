@@ -7,7 +7,7 @@ import verifyToken from '../middleware/authmiddleWare.js';
 const router = express.Router (); //Creates small route for us to use
 
 //GET all expenses for the logged in user
-router.get ('/',  async (req, res) => { //Handles GET request. Grabs all exp from DB for user
+router.get ('/', verifyToken, async (req, res) => { //Handles GET request. Grabs all exp from DB for user
   const expenses = await prisma.expense.findMany({
     where: {
       userId: req.userId
@@ -17,15 +17,15 @@ router.get ('/',  async (req, res) => { //Handles GET request. Grabs all exp fro
 })
 
 //Create a new expense
-router.post ('/',  async (req, res)=> {
+router.post ('/', verifyToken, async (req, res)=> {
   const {name, amount, category, date} = req.body
 
-  const expense = await prisma.expense.create ({
+  const expense = await prisma.expense.create({
     data: {
       name,
       amount,
       category,
-      date,
+      date: new Date(date),
       userId: req.userId
   
     }
