@@ -33,4 +33,22 @@ router.post ('/', verifyToken, async (req, res)=> {
     res.json(expense)
 })
 
+//Delete a expense
+router.delete('/', verifyToken, async (req, res) => {
+  const{name, amount, category, date} = req.body
+
+  const expense = await prisma.expense.delete({
+    data: {
+      name,
+      amount,
+      category,
+      date,
+      userId: req.userId
+    }
+    
+  })
+  
+  res.json(expense)
+})
+
 export default router;
