@@ -51,7 +51,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
       userId: req.userId
     },
   });
-
+ 
   res.json({message: "Expense deleted", deletedExpense});
 });
 
