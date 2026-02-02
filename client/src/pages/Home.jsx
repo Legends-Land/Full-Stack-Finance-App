@@ -63,6 +63,14 @@ const Home = () => {
     setExpenses(expenses.filter((e) => e.id !== id));
   };
 
+    const deleteExpense = async (id) => {
+      try{
+        await axios.delete ("http://localhost:3000/expenses/{id}")
+      }
+    } catch (err){
+      console.error("Error delet")
+    }
+
   // Filtered expenses
   const displayedExpenses =
     filter === "All"
