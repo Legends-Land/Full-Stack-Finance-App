@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
 import Playpage from "../pages/Playpage";
+// import { takeCoverage } from "v8";
 
 const Home = () => {
   const [expenses, setExpenses] = useState([]);
@@ -65,11 +66,25 @@ const Home = () => {
 
     const deleteExpense = async (id) => {
       try{
-        await axios.delete ("http://localhost:3000/expenses/{id}")
+
+        const token = localStorage.getItem("token");
+
+        await axios.delete (
+          `http://localhost:3000/expenses/${id}`,
+        {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      
       }
+    );
+      
+       setExpenses((prev) => prev.filter((e) => e.id !== id));   
     } catch (err){
-      console.error("Error delet")
+      console.error("Error deleted", err);
     }
+  };
+
 
   // Filtered expenses
   const displayedExpenses =
@@ -157,6 +172,7 @@ const Home = () => {
                 <td>
                   <button onClick={() => handleEdit(expense.id)}>Edit</button>
                   <button onClick={() => handleDelete(expense.id)}>Delete</button>
+                  <button onClick={() => deleteExpense(expense.id)}>DeletE</button>
                 </td>
               </tr>
             ))}
