@@ -10,8 +10,9 @@ const Home = () => {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("");
   const [filter, setFilter] = useState("All");
+  const [editingId, setEditingId] = useState(null);
 
-  // Fetch data from backend (if needed)
+  // Fetch expenses
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
@@ -22,104 +23,69 @@ const Home = () => {
       .catch((err) => console.error(err.response?.data));
   }, []);
 
-  // Form submit
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-    const token = localStorage.getItem("token");
-    // Send data to backend
-    const res = await axios.post("http://localhost:3000/expenses",{
-      name,
-      amount: parseFloat(amount),
-      category,
-      date,
-    },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    // Update state with response from backend
-    setExpenses([...expenses, res.data]);
-
-    // Clear form
+  // Clear form
+  const clearForm = () => {
     setName("");
     setAmount("");
     setCategory("");
     setDate("");
-  } catch (err) {
-    console.error("Failed to add expense:", err.response?.data || err);
-  }
-};
-
-
-  // Delete & Edit
-  const handleDelete = (id) => setExpenses(expenses.filter((e) => e.id !== id));
-  const handleEdit = (id) => {
-    const exp = expenses.find((e) => e.id === id);
-    setName(exp.name);
-    setAmount(exp.amount);
-    setCategory(exp.category);
-    setDate(exp.date);
-    setExpenses(expenses.filter((e) => e.id !== id));
+    setEditingId(null);
   };
 
-  const updateExpense = async (id) =>{
+  // Submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!name || !amount || !category || !date) return alert("Fill all fields");
+
     try {
-      const token = localStorage.getItem("token")
-
-      await axios.put (
-        `http://localhost:3000/expenses/${id}`,
-        {
-          name,
-          amount: parseFloat(amount),
-          category,
-          date,
-        },
-        {
-
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        }
-  );
-
-        setExpenses((prev) =>
-          prev.map((e)=> (e.id === id ? res.data : e))
+      let res;
+      if (editingId) {
+        // Update existing expense
+        res = await axios.put(
+          `http://localhost:3000/expenses/${editingId}`,
+          { name, amount: parseFloat(amount), category, date },
+          { headers: { Authorization: `Bearer ${token}` } }
         );
-
-         setName("");
-    setAmount("");
-    setCategory("");
-    setDate("");
-  } catch (err) {
-    console.error("Error updating expense:", err.response?.data || err);
-  }
-};
-
-
-
-    const deleteExpense = async (id) => {
-      try{
-
-        const token = localStorage.getItem("token");
-
-        await axios.delete (
-          `http://localhost:3000/expenses/${id}`,
-        {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      
+        setExpenses((prev) =>
+          prev.map((e) => (e.id === editingId ? res.data : e))
+        );
+      } else {
+        // Create new expense
+        res = await axios.post(
+          "http://localhost:3000/expenses",
+          { name, amount: parseFloat(amount), category, date },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setExpenses((prev) => [...prev, res.data]);
       }
-    );
-      
-       setExpenses((prev) => prev.filter((e) => e.id !== id));   
-    } catch (err){
-      console.error("Error deleted", err);
+      clearForm();
+    } catch (err) {
+      console.error("Error saving expense:", err.response?.data || err);
     }
   };
 
+  // Edit
+  const handleEdit = (expense) => {
+    setName(expense.name);
+    setAmount(expense.amount);
+    setCategory(expense.category);
+    setDate(expense.date.slice(0, 10)); // remove time
+    setEditingId(expense.id);
+  };
+
+  // Delete
+  const deleteExpense = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`http://localhost:3000/expenses/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setExpenses((prev) => prev.filter((e) => e.id !== id));
+    } catch (err) {
+      console.error("Error deleting expense:", err);
+    }
+  };
 
   // Filtered expenses
   const displayedExpenses =
@@ -166,7 +132,7 @@ const Home = () => {
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
-        <button type="submit">Add Expense</button>
+        <button type="submit">{editingId ? "Update Expense" : "Add Expense"}</button>
       </form>
 
       {/* Filter */}
@@ -205,10 +171,8 @@ const Home = () => {
                 <td>{expense.category}</td>
                 <td>{new Date(expense.date).toLocaleDateString()}</td>
                 <td>
-                  <button onClick={() => handleEdit(expense.id)}>Edit</button>
-                  <button onClick={() => updateExpense(expense.id)}>EDIT</button>
-                  <button onClick={() => handleDelete(expense.id)}>Delete</button>
-                  <button onClick={() => deleteExpense(expense.id)}>DELETE</button>
+                  <button onClick={() => handleEdit(expense)}>Edit</button>
+                  <button onClick={() => deleteExpense(expense.id)}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -217,98 +181,21 @@ const Home = () => {
 
         <div className="total-amount">
           <strong>Total:</strong> $
-          {expenses.reduce((sum, exp) => sum + exp.amount, 0).toFixed(2)}
+          {displayedExpenses.reduce((sum, exp) => sum + exp.amount, 0).toFixed(2)}
         </div>
       </div>
 
       {/* Dashboard / Logout */}
-      <a href="http://localhost:5173/dashboard">
-        <button>Dashboard</button>
-      </a>
-      <a href="http://localhost:5173/login">
-        <button>Log Out</button>
-      </a>
-
-     
+      <div className="navigation-buttons">
+        <a href="http://localhost:5173/dashboard">
+          <button>Dashboard</button>
+        </a>
+        <a href="http://localhost:5173/login">
+          <button>Log Out</button>
+        </a>
+      </div>
     </div>
   );
 };
 
 export default Home;
-
-
-// const Home = () => {
-//   useEffect(() => {
-//     const token = localStorage.getItem("token");
-
-//     axios
-//       .get("http://localhost:3000/auth/home", {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       })
-//         .then((res) => console.log(res.data))
-//       .catch((err) => console.error(err.response?.data));
-//   }, []);
-
-//   return (
-//     <div>
-     
-//       <div className="container">
-//         <h1>Expense Tracker</h1>
-//         <form id="expense-form">
-//             <input type="text" id="expense-name" placeholder="Expense Name" required />
-//             <input type="number" id="expense-amount" placeholder="Amount" required />
-//             <select id="expense-category" required>
-//                 <option value="" disabled selected>Select Category</option>
-//                 <option value="Food">Food</option>
-//                 <option value="Transport">Transport</option>
-//                 <option value="Entertainment">Entertainment</option>
-//                 <option value="Other">Other</option>
-//             </select>
-//             <input type="date" id="expense-date" required />
-//             <button type="submit">Add Expense</button>
-//         </form>
-//         <div className="expense-table">
-//             <table>
-//                 <thead>
-//                     <tr>
-//                         <th>Expense Name</th>
-//                         <th>Amount</th>
-//                         <th>Category</th>
-//                         <th>Date</th>
-//                         <th>Action</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody id="expense-list"></tbody>
-//             </table>
-//             <div className="total-amount">
-//                 <strong>Total:</strong> $<span id="total-amount">0</span>
-//             </div>
-//         </div>
-//         <div className="filter">
-//             <label for="filter-category">Filter by Category:</label>
-//             <select id="filter-category">
-//                 <option value="All">All</option>
-//                 <option value="Food">Food</option>
-//                 <option value="Transport">Transport</option>
-//                 <option value="Entertainment">Entertainment</option>
-//                 <option value="Other">Other</option>
-//             </select>
-//         </div>
-//     </div>
-
-//       <a href="http://localhost:5173/dashboard">
-//         <button onClick={() => console.log("Button clicked")}>Dashboard</button>
-//       </a>
-//       <a href="http://localhost:5173/login">
-//         <button onClick={() => console.log("Button clicked")}>Log Out</button>
-//       </a>
-
-//             <Playpage/>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
