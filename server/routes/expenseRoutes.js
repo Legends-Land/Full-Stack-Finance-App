@@ -51,8 +51,32 @@ router.delete('/:id', verifyToken, async (req, res) => {
       userId: req.userId
     },
   });
- 
+
+  
   res.json({message: "Expense deleted", deletedExpense});
 });
 
+
+// UPDATE expenses
+
+router.put("/:id", verifyToken, async (req, res) => {
+  try {
+    const expenseId = Number(req.params.id);
+
+    const updatedExpense = await prisma.expense.update({
+      where: { id: expenseId },
+  data: {
+    name: req.body.name || "Unnamed Expense",
+    amount: req.body.amount ?? 0,
+    category: req.body.category || "Other",
+    date: req.body.date ? new Date(req.body.date) : new Date(),
+      },
+    });
+
+    res.json(updatedExpense);
+  } catch (err) {
+    console.error("Update failed:", err);
+    res.status(500).json({ message: "Error updating expense" });
+  }
+});
 export default router;
