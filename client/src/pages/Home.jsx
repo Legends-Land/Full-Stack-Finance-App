@@ -64,6 +64,41 @@ const Home = () => {
     setExpenses(expenses.filter((e) => e.id !== id));
   };
 
+  const updateExpense = async (id) =>{
+    try {
+      const token = localStorage.getItem("token")
+
+      await axios.put (
+        `http://localhost:3000/expenses/${id}`,
+        {
+          name,
+          amount: parseFloat(amount),
+          category,
+          date,
+        },
+        {
+
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+  );
+
+        setExpenses((prev) =>
+          prev.map((e)=> (e.id === id ? res.data : e))
+        );
+
+         setName("");
+    setAmount("");
+    setCategory("");
+    setDate("");
+  } catch (err) {
+    console.error("Error updating expense:", err.response?.data || err);
+  }
+};
+
+
+
     const deleteExpense = async (id) => {
       try{
 
@@ -168,11 +203,12 @@ const Home = () => {
                 <td>{expense.name}</td>
                 <td>${expense.amount.toFixed(2)}</td>
                 <td>{expense.category}</td>
-                <td>{expense.date}</td>
+                <td>{new Date(expense.date).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => handleEdit(expense.id)}>Edit</button>
+                  <button onClick={() => updateExpense(expense.id)}>EDIT</button>
                   <button onClick={() => handleDelete(expense.id)}>Delete</button>
-                  <button onClick={() => deleteExpense(expense.id)}>DeletE</button>
+                  <button onClick={() => deleteExpense(expense.id)}>DELETE</button>
                 </td>
               </tr>
             ))}
