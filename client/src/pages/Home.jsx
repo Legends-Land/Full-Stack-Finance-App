@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Playpage from "../pages/Playpage";
 // import { takeCoverage } from "v8";
 
@@ -11,6 +12,7 @@ const Home = () => {
   const [date, setDate] = useState("");
   const [filter, setFilter] = useState("All");
   const [editingId, setEditingId] = useState(null);
+  const navigate = useNavigate(); 
 
   // Fetch expenses
   useEffect(() => {
@@ -187,15 +189,16 @@ const Home = () => {
 
       {/* Dashboard / Logout */}
       <div className="navigation-buttons">
-        <a href="http://localhost:5173/dashboard">
+        <a href="/dashboard">
           <button>Dashboard</button>
         </a>
-        <a href="http://localhost:5173/login">
-          <button>Log Out</button>
-        </a>
+          <button onClick={() => { 
+            localStorage.removeItem("token")
+            navigate("/login")
+          }} >Log Out</button>
       </div>
     </div>
-  );
+  ); 
 };
 
 export default Home;
