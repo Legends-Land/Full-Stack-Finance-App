@@ -2,6 +2,10 @@ Trello
 Run npx prisma studio open my prisma studio
 Alt + arrow up / down to move line of code
 
+git log origin/main --oneline //view all commits
+git log --oneline   //View all Pushes
+
+
 PSQL
 \l --view DBs
 \c db_name --connect to table
