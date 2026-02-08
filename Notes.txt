@@ -1,9 +1,18 @@
+Trello
 Run npx prisma studio open my prisma studio
 Alt + arrow up / down to move line of code
 
 PSQL
 \l --view DBs
 \c db_name --connect to table
-\dt --view table 
+\dt --view table /list tables
 \dt table_name or \dt "table_name" --view table
 SELECT * FROM "table_name"; -view ROWS
+
+//View expeses by user or userId
+SELECT * FROM "Expense"
+ORDER BY "userId", "date" DESC;
+
+SELECT * FROM "Expense"
+WHERE "userId" = 1
+ORDER BY "date" DESC;
