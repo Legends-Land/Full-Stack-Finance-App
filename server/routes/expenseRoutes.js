@@ -16,6 +16,10 @@ router.get ('/', verifyToken, async (req, res) => { //Handles GET request. Grabs
   res.json(expenses)
 })
 
+//GET user name for display
+
+  
+
 //Create a new expense
 router.post ('/', verifyToken, async (req, res)=> {
   const {name, amount, category, date} = req.body

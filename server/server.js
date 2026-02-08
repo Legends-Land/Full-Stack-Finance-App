@@ -1,4 +1,3 @@
-
 import dotenv from "dotenv"
 dotenv.config();
 import express from "express" // Importing express tool to use for my routes
@@ -10,12 +9,10 @@ import expenseRoutes from "./routes/expenseRoutes.js";
 
 
 
-
 // Calling express to us create end points and CRUD request
 const app = express ();
 //Port my app is running on
 const PORT = 3000;
-
 
 
 app.use(cors({
@@ -26,6 +23,9 @@ app.use(cors({
 })); 
 
 app.use(express.json());
+
+//Routes 
+app.use("/expenses", expenseRoutes);
 
 app.use("/auth", authRoutes);
 
@@ -38,9 +38,6 @@ app.get('/api/message', (req, res) => {
   res.json({ message: "Hello from the backend on Home.jsx 👋" });
 });
 
-
-//Routes 
-app.use("/expenses", expenseRoutes);
 
 app.get('/legend', (req , res) => {
   res.json({message:"This is information from the backend port 300"});

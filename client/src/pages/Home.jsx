@@ -25,6 +25,8 @@ const Home = () => {
       .catch((err) => console.error(err.response?.data));
   }, []);
 
+
+
   // Clear form
   const clearForm = () => {
     setName("");

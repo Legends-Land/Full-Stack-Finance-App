@@ -55,14 +55,16 @@ router.post("/login", async (req, res) => {
     expiresIn: "1h",
   });
 
-  res.json({
-    message: "Login successful",
-    token,
+  return res.json({
+    token: token,
     user: {
-      id: user.id,
       name: user.name,
-    },
-  });
+    }
+
+});
+
+  
+  
 });
 
 // const verifyToken = async (req, res, next) => {
