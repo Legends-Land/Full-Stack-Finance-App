@@ -89,7 +89,10 @@ const Home = () => {
     }
   };
 
+  
+
   // Filtered expenses
+   const user = JSON.parse(localStorage.getItem("user"));
   const displayedExpenses =
     filter === "All"
       ? expenses
@@ -97,7 +100,9 @@ const Home = () => {
 
   return (
     <div className="container">
+    <h1> Welcome back {user?.name || "Guest"}</h1>
       <h1>Expense Tracker</h1>
+
 
       {/* Expense Form */}
       <form onSubmit={handleSubmit}>
