@@ -102,7 +102,7 @@ const Home = () => {
 
   return (
     <div className="container">
-    <h1> Welcome back {user?.name || "Guest"}</h1>
+    <h1> Welcome {user?.name || "Guest"}</h1>
       <h1>Expense Tracker</h1>
 
 
