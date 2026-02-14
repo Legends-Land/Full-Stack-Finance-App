@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
+
 const Login = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChanges = (e) => {
@@ -27,8 +30,16 @@ const Login = () => {
 
       // Navigate to home
       navigate("/dashboard", { replace: true });
-    } catch (err) {
-      console.log(err.response?.data || err.message);
+   } catch (err) {
+      if (err.response?.status === 404) {
+        setError("We couldn’t find an account with that email.");
+      } else if (err.response?.status === 401) {
+        setError("Incorrect password.");
+      } else if (!err.response) {
+        setError("Server not responding. Check your connection.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     }
   };
 
@@ -89,6 +100,11 @@ const Login = () => {
           <Link to="/register" className="text-blue-500">
             Signup
           </Link>
+           {error && (
+            <div className="text-red-500 mt-3 text-sm text-center">
+              {error}
+            </div>
+          )}
         </div>
       </div>
     </div>
