@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Playpage from "../pages/Playpage";
+
 // import { takeCoverage } from "v8";
 
 const Home = () => {
@@ -99,10 +99,13 @@ const Home = () => {
     filter === "All"
       ? expenses
       : expenses.filter((e) => e.category === filter);
+      const displayName = user?.name
+  ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
+  : "Guest";
 
   return (
     <div className="container">
-    <h1> Welcome {user?.name || "Guest"}</h1>
+    <h1>Welcome {displayName}</h1>
       <h1>Expense Tracker</h1>
 
 
