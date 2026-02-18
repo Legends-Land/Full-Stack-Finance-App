@@ -9,7 +9,7 @@
 /* Sidebar */
 .sidebar {
   width: 220px;
-  background-color: #1f2937;
+  background-color: #0db96e;
   color: white;
   padding: 20px;
 }
@@ -28,7 +28,7 @@
 }
 
 .sidebar nav a:hover {
-  color: white;
+  color: rgb(15, 228, 79);
 }
 
 /* Main content */

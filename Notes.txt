@@ -2,8 +2,8 @@ Trello
 Run npx prisma studio open my prisma studio
 Alt + arrow up / down to move line of code
 
-git log origin/main --oneline //view all commits
-git log --oneline   //View all Pushes
+git log origin/main --oneline //view all push history
+git log --oneline   //View all commit history , not pushed
 
 
 PSQL

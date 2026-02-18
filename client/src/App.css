@@ -1,4 +1,4 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +39,150 @@
 
 .read-the-docs {
   color: #888;
+} */
+
+
+/* ============================= */
+/* LAYOUT */
+/* ============================= */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+/* ============================= */
+/* SIDEBAR */
+/* ============================= */
+
+.sidebar {
+  width: 240px;
+  background-color:#6366f1 ;
+  color: rgb(105, 14, 14);
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0 20px 20px 0;
+}
+
+.sidebar a {
+  color: #cbd5e1;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.2s ease;
+}
+
+.sidebar a:hover {
+  background: rgb(233, 239, 237);
+  color: rgb(49, 199, 79);
+}
+
+/* ============================= */
+/* TOPBAR */
+/* ============================= */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* ============================= */
+/* STAT CARDS */
+/* ============================= */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  font-size: 16px;
+  color: var(--text-light);
+}
+
+.stat-card h2 {
+  margin-top: 10px;
+  font-size: 28px;
+}
+
+/* ============================= */
+/* BUTTONS */
+/* ============================= */
+
+button {
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  background-color: rgb(49, 199, 79);
+  color: #ffffff;
+}
+
+button:hover{
+  background-color: #e2e8f0;
+  color: rgb(51, 198, 73);
+  border: #0ace27 solid 1px;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+}
+
+button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+  background-color: #0ace27;
+}
+
+/* ============================= */
+/* INPUTS */
+/* ============================= */
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 15px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+input:hover,
+select:hover{
+  background-color: #6157ba;
+  color: #fefefe;
+  
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
