@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const Home = () => {
   const [date, setDate] = useState("");
   const [filter, setFilter] = useState("All");
   const [editingId, setEditingId] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // Fetch expenses
   useEffect(() => {
@@ -24,8 +24,6 @@ const Home = () => {
       .then((res) => setExpenses(res.data))
       .catch((err) => console.error(err.response?.data));
   }, []);
-
-
 
   // Clear form
   const clearForm = () => {
@@ -42,24 +40,27 @@ const Home = () => {
     const token = localStorage.getItem("token");
     if (!name || !amount || !category || !date) return alert("Fill all fields");
 
+    // 🔥 FIX: force local midnight
+    const localDate = new Date(date + "T00:00:00");
+
     try {
       let res;
       if (editingId) {
         // Update existing expense
         res = await axios.put(
           `http://localhost:3000/expenses/${editingId}`,
-          { name, amount: parseFloat(amount), category, date },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { name, amount: parseFloat(amount), category, date: localDate },
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         setExpenses((prev) =>
-          prev.map((e) => (e.id === editingId ? res.data : e))
+          prev.map((e) => (e.id === editingId ? res.data : e)),
         );
       } else {
         // Create new expense
         res = await axios.post(
           "http://localhost:3000/expenses",
-          { name, amount: parseFloat(amount), category, date },
-          { headers: { Authorization: `Bearer ${token}` } }
+          { name, amount: parseFloat(amount), category, date: localDate},
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         setExpenses((prev) => [...prev, res.data]);
       }
@@ -91,23 +92,18 @@ const Home = () => {
     }
   };
 
-  
-
   // Filtered expenses
-   const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user"));
   const displayedExpenses =
-    filter === "All"
-      ? expenses
-      : expenses.filter((e) => e.category === filter);
-      const displayName = user?.name
-  ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
-  : "Guest";
+    filter === "All" ? expenses : expenses.filter((e) => e.category === filter);
+  const displayName = user?.name
+    ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
+    : "Guest";
 
   return (
     <div className="container">
-    <h1>Welcome {displayName}</h1>
+      <h1> Welcome {displayName}</h1>
       <h1>Expense Tracker</h1>
-
 
       {/* Expense Form */}
       <form onSubmit={handleSubmit}>
@@ -144,7 +140,9 @@ const Home = () => {
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
-        <button type="submit">{editingId ? "Update Expense" : "Add Expense"}</button>
+        <button type="submit">
+          {editingId ? "Update Expense" : "Add Expense"}
+        </button>
       </form>
 
       {/* Filter */}
@@ -184,7 +182,9 @@ const Home = () => {
                 <td>{new Date(expense.date).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => handleEdit(expense)}>Edit</button>
-                  <button onClick={() => deleteExpense(expense.id)}>Delete</button>
+                  <button onClick={() => deleteExpense(expense.id)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -193,7 +193,9 @@ const Home = () => {
 
         <div className="total-amount">
           <strong>Total:</strong> $
-          {displayedExpenses.reduce((sum, exp) => sum + exp.amount, 0).toFixed(2)}
+          {displayedExpenses
+            .reduce((sum, exp) => sum + exp.amount, 0)
+            .toFixed(2)}
         </div>
       </div>
 
@@ -202,13 +204,17 @@ const Home = () => {
         <a href="/dashboard">
           <button>Dashboard</button>
         </a>
-          <button onClick={() => { 
-            localStorage.removeItem("token")
-            navigate("/login")
-          }} >Log Out</button>
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/login");
+          }}
+        >
+          Log Out
+        </button>
       </div>
     </div>
-  ); 
+  );
 };
 
 export default Home;
