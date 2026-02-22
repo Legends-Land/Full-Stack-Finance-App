@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
 
 // import { takeCoverage } from "v8";
 
@@ -101,11 +103,20 @@ const Home = () => {
     : "Guest";
 
   return (
+
+     <div className="app-layout">
+      <Sidebar /> 
+
+      <div className="main-content">
+              <Topbar />
+
     <div className="container">
-      <h1> Welcome {displayName}</h1>
-      <h1>Expense Tracker</h1>
+     
+
+      
 
       {/* Expense Form */}
+      <div className="input-expense-form">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -144,6 +155,7 @@ const Home = () => {
           {editingId ? "Update Expense" : "Add Expense"}
         </button>
       </form>
+      </div>
 
       {/* Filter */}
       <div className="filter">
@@ -163,7 +175,7 @@ const Home = () => {
 
       {/* Expense Table */}
       <div className="expense-table">
-        <table>
+        <table className="table">
           <thead>
             <tr>
               <th>Expense Name</th>
@@ -181,8 +193,8 @@ const Home = () => {
                 <td>{expense.category}</td>
                 <td>{new Date(expense.date).toLocaleDateString()}</td>
                 <td>
-                  <button onClick={() => handleEdit(expense)}>Edit</button>
-                  <button onClick={() => deleteExpense(expense.id)}>
+                  <button className="home-btns" onClick={() => handleEdit(expense)}>Edit</button>
+                  <button className="home-btns" onClick={() => deleteExpense(expense.id)}>
                     Delete
                   </button>
                 </td>
@@ -200,19 +212,21 @@ const Home = () => {
       </div>
 
       {/* Dashboard / Logout */}
-      <div className="navigation-buttons">
+      {/* <div className="navigation-buttons">
         <a href="/dashboard">
           <button>Dashboard</button>
-        </a>
-        <button
+        </a> */}
+        {/* <button
           onClick={() => {
             localStorage.removeItem("token");
             navigate("/login");
           }}
         >
           Log Out
-        </button>
-      </div>
+        </button> */}
+      {/* </div> */}
+    </div>
+    </div>
     </div>
   );
 };
