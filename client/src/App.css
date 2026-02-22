@@ -71,7 +71,7 @@
 }
 
 .sidebar a {
-  color: #cbd5e1;
+  color: #b30404;
   padding: 12px;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -104,6 +104,10 @@
   gap: 25px;
 }
 
+.stats-grid:hover{
+  color: #ffffff;
+}
+
 .stat-card {
   background: var(--card-bg);
   padding: 25px;
@@ -114,6 +118,7 @@
 
 .stat-card:hover {
   transform: translateY(-5px);
+  color: #ae1b1b;
 }
 
 .stat-card h3 {
@@ -131,20 +136,27 @@
 /* ============================= */
 
 button {
-  padding: 12px 18px;
+  padding: 12px 100px;
   border-radius: 12px;
   border: none;
   font-weight: 600;
   cursor: pointer;
   transition: 0.2s ease;
-  background-color: rgb(49, 199, 79);
+  background-color: #0db96e;;
   color: #ffffff;
+  margin: 5px;
+  border: #ffffff solid 1px;
+}
+
+.home-btns{
+  padding: 12px 50px;
 }
 
 button:hover{
-  background-color: #e2e8f0;
-  color: rgb(51, 198, 73);
-  border: #0ace27 solid 1px;
+  background-color: #693bdc;
+  background-image: linear-gradient(to bottom, rgb(193, 167, 223) , rgb(80, 3, 233));
+  color: rgb(252, 252, 252);
+ 
 }
 
 button.primary {
@@ -153,7 +165,7 @@ button.primary {
 }
 
 button.primary:hover {
-  transform: translateY(-2px);
+ 
   box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
   background-color: #0ace27;
 }
@@ -161,6 +173,13 @@ button.primary:hover {
 /* ============================= */
 /* INPUTS */
 /* ============================= */
+
+.login-input,
+.email-input
+{
+  background-color: transparent;
+
+}
 
 input,
 select {
@@ -171,6 +190,7 @@ select {
   margin-bottom: 15px;
   font-size: 14px;
   transition: 0.2s ease;
+  
 }
 
 input:hover,
@@ -185,4 +205,72 @@ select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.login-page,
+.register-page{
+  width: 50%;
+ padding: 50px;
+ display: flex;
+ flex-direction: row;
+ justify-content: center;
+ background-color: #ffffff;
+ overflow-y: auto;
+}
+
+.container-login{
+  background-size: cover;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+   justify-content: center;
+   display: flex;
+}
+
+.login-logo {
+ background-color: #0db96e;
+ width: 50%;
+ background-image:url("/images/holding-phone.jpg");  
+}
+
+
+.login-logo2{
+  width: 250px;
+}
+
+
+
+.table{
+ 
+  border-spacing: 30px;
+  border-collapse: 0px 4px;
+  border-color: rgb(255, 255, 255) ;
+  border-radius: 30px;
+  border-style: solid;
+  border-width: 5px;
+}
+
+.total-amount{
+  padding:20px;
+ 
+}
+
+.company-logo{
+  border-radius: 5px;
+width: 50px;
+margin-top: -12px;
+}
+
+.logo-container{
+  display: flex;
+  margin: 0;
+}
+
+.logo{
+  margin-bottom: 0%;
+}
+
+h2{
+  margin-bottom: 5px;
 }
