@@ -1,14 +1,27 @@
-export default function Sidebar() {
+import { Link, useNavigate } from "react-router-dom";
 
-    const user = JSON.parse(localStorage.getItem("user"));
+
+export default function Sidebar() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <aside className="sidebar">
-      <h2 className="logo"> Dashboard</h2>
+      <div className="logo-container"> 
+        <div><h2 className="logo"> Coinage</h2></div>
+      <div><img src='images/Coinage-logo.png' className='company-logo' alt = "Company-logo"/></div>
+       </div>
+     
 
       <nav>
-        <a href="http://localhost:5173/home">Expense Tracker</a>
-        <a href="http://localhost:3000/legend">Analytics</a>
-        <a href="#">Settings</a>
+
+         <Link to="/dashboard">Dashboard</Link>
+
+        <Link to="/home">Expense Tracker</Link>
+
+        <Link to="/login" onClick={() => localStorage.removeItem("token")}>
+          Log Out
+        </Link>
+       
       </nav>
     </aside>
   );
