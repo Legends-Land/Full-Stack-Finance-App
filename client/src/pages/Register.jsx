@@ -33,9 +33,13 @@ const Register = () => {
     }
   };
   return (
+    <div className="container-login">
+      <div className="login-logo"></div>
+        <div className = "register-page">
+
     <div className="flex justify-center items-center h-screen">
       <div className="shadow-lg px-8 py-5 border w-72">
-        <h2 className="text-lg font-bold mb-4">Register</h2>
+        <h2 className="text-lg font-bold mb-4">Register for Coinage</h2>
         <form onSubmit={handleSumbit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-gray-700">
@@ -82,15 +86,34 @@ const Register = () => {
           <button className="w-full bg-green-600 text-white py-2 ">
             Submit
           </button>
+
+           <div>
+                {/* <button className="w-full bg-green-600 text-white py-2 ">
+                   <Link to="/" className="text-blue-500">
+            Login
+          </Link>
+  
+                </button> */}
+              </div>
         </form>
         <div className="text-center">
-          <span>Already have account?</span>
+          <span>Already have account? </span>
           <Link to="/" className="text-blue-500">
             Login
           </Link>
         </div>
+
+         <div><img src='images/Coinage-logo.png' className='login-logo2' alt = "Company-logo"/></div>
       </div>
     </div>
+
+    
+    </div>
+    
+        </div>
+
+        
+        
   );
 };
 
