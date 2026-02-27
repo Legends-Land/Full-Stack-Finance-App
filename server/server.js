@@ -16,7 +16,7 @@ const PORT = 3000;
 
 
 app.use(cors({
-  origin: "http://localhost:5173", //vite front end
+  origin: "http://localhost:5175", //vite front end
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
    allowedHeaders: ["Content-Type", "Authorization"]
