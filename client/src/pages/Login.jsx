@@ -7,11 +7,13 @@ const Login = () => {
     email: "",
     password: "",
   });
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChanges = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+    
   };
 
   const handleSumbit = async (e) => {
@@ -61,7 +63,7 @@ const Login = () => {
     <div className="container-login">
       <div className="login-logo"></div>
       <div className="login-page">
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex flex-col items-center justify-center w-full">
           <div className="shadow-lg px-8 py-5 border w-72">
             <h2 className="text-lg font-bold mb-4">Welcome to Coinage</h2>
             <form onSubmit={handleSumbit}>
@@ -92,7 +94,7 @@ const Login = () => {
                 />
               </div>
               <button className="w-full bg-green-600 text-white py-2 ">
-                Submit
+                Login
               </button>
               {/* <button className="w-full bg-green-600 text-white py-2 ">
                 Sign Up
@@ -130,7 +132,14 @@ const Login = () => {
         </div>
       </div>
     </div>
+
+    
+
+
+
+
   );
+
 };
 
 export default Login;
