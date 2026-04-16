@@ -7,29 +7,12 @@
 }
 
 /* Sidebar */
-.sidebar {
-  width: 220px;
-  background-color: #0db96e;
-  color: rgb(255, 255, 255);
-  padding: 20px;
-}
 
 .logo {
   margin-bottom: 30px;
   font-size: 22px;
 }
 
-.sidebar nav a {
-  display: block;
-  color: #ffffff;
-  text-decoration: none;
-  margin-bottom: 15px;
-  font-size: 16px;
-}
-
-.sidebar nav a:hover {
-  color: rgb(15, 228, 79);
-}
 
 /* Main content */
 .main-content {
@@ -80,4 +63,17 @@
   color: #1f2937;
   font-size: 26px;
   font-weight: bold;
+}
+
+@media screen and (max-width: 700px) {
+  .expense-table {
+    display: none;
+  }
+  
+}
+@media screen and (min-width: 700px) {
+  .expense-cards {
+    display: none;
+  }
+  
 }
