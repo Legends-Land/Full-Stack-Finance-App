@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
+import ExpenseCard from "../components/ExpenseCard";
 
 // import { takeCoverage } from "v8";
 
@@ -173,8 +174,16 @@ const Home = () => {
         </select>
       </div>
 
+        <div className="total-amount">
+          <strong>Total:</strong> $
+          {displayedExpenses
+            .reduce((sum, exp) => sum + exp.amount, 0)
+            .toFixed(2)}
+        </div>
+
       {/* Expense Table */}
       <div className="expense-table">
+      
         <table className="table">
           <thead>
             <tr>
@@ -202,29 +211,40 @@ const Home = () => {
             ))}
           </tbody>
         </table>
+      
+  
+</div>
 
-        <div className="total-amount">
-          <strong>Total:</strong> $
-          {displayedExpenses
-            .reduce((sum, exp) => sum + exp.amount, 0)
-            .toFixed(2)}
-        </div>
       </div>
 
-      {/* Dashboard / Logout */}
-      {/* <div className="navigation-buttons">
-        <a href="/dashboard">
-          <button>Dashboard</button>
-        </a> */}
-        {/* <button
-          onClick={() => {
-            localStorage.removeItem("token");
-            navigate("/login");
-          }}
-        >
-          Log Out
-        </button> */}
-      {/* </div> */}
+        <div className="expense-cards">
+  {displayedExpenses.map((expense) => (
+    <div key={expense.id} className="expense-card">
+      <div className="expense-card-row">
+        <span className="expense-card-label">Name</span>
+        <span>{expense.name}</span>
+      </div>
+      <div className="expense-card-row">
+        <span className="expense-card-label">Amount</span>
+        <span>${expense.amount.toFixed(2)}</span>
+      </div>
+      <div className="expense-card-row">
+        <span className="expense-card-label">Category</span>
+        <span>{expense.category}</span>
+      </div>
+      <div className="expense-card-row">
+        <span className="expense-card-label">Date</span>
+        <span>{new Date(expense.date).toLocaleDateString()}</span>
+      </div>
+      <div className="expense-card-actions">
+        <button className="home-btns" onClick={() => handleEdit(expense)}>Edit</button>
+        <button className="home-btns" onClick={() => deleteExpense(expense.id)}>Delete</button>
+      </div>
+    </div>
+
+    ))}
+
+      
     </div>
     </div>
     </div>
